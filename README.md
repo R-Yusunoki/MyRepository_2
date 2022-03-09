@@ -21,7 +21,7 @@ API によって、GET リクエスト及び JSON 文字列のレスポンスを
 
 【Web アプリ】<br>
 URL:[https://practiceserver.paiza-user-free.cloud:3000/](https://practiceserver.paiza-user-free.cloud:3000/)<br>
-下段のチャットはブラウザを２つ起動させて試してみてください。<br>
+上段はテキストを記入し「Count」ボタンを。下段のチャットはブラウザを２つ起動させて試してみてください。<br>
 ソースファイルは「WebApp」にあります。<br>
 【ブラウザアプリ】<br>
 アプリケーションファイル（HTML）は「BrowserApp」にあります。
