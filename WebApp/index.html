@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width" charset="utf-8" />
+    <title>chat</title>
+    <style type="text/css">
+      input.user {
+        width: 50px;
+      }
+      div.list {
+        width: 100%;
+        word-break: break-all;
+      }
+    </style>
+  </head>
+  <body>
+    <!--フォーム配置-->
+    [Number of Characters]
+    <form onsubmit="returnfalse;">
+      <textarea type="text" id="input_message"></textarea>
+      <input type="button" id="btn" value="Count" />
+    </form>
+
+    <div id="result"></div>
+    <br />
+    [Chat]
+    <form onsubmit="returnfalse;">
+      your name:<input type="text" id="user" class="user" />
+      <br />
+      <input type="text" id="input_chat" />
+      <input type="button" id="chat_btn" value="Send" />
+    </form>
+    <div class="list">
+      <ul id="chat_list"></ul>
+    </div>
+
+    <!--「Count」ボタンのスクリプト-->
+    <script>
+      //イベントリスナー
+      document.getElementById("btn").addEventListener(
+        "click",
+        function () {
+          let result = document.getElementById("result");
+          let xhr = new XMLHttpRequest(); //Ajax用オブジェクト生成
+
+          //レスポンスを非同期で待機する。
+          xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4) {
+              if (xhr.status === 200) {
+                result.textContent = xhr.responseText;
+              } else {
+                result.textContent = "Server Error " + xhr.status;
+              }
+            } else {
+              result.textContent = "Now Session...";
+            }
+          };
+
+          //リクエスト送信
+          xhr.open("POST", "/home/ubuntu/server.js", true);
+          xhr.setRequestHeader(
+            "content-type",
+            "application/x-www-form-urlencoded;charset=UTF-8"
+          );
+          xhr.send("name=" + document.getElementById("input_message").value);
+        },
+        false
+      ); //イベントリスナー終了
+    </script>
+
+    <!--クライアント用socket.IOライブラリ読み込み-->
+    <script src="/socket.io/socket.io.js"></script>
+
+    <!--「Send」ボタンのスクリプト-->
+    <script>
+      const socket = io(); //サーバーのソケットオブジェクト
+      let display = document.getElementById("chat_list");
+      let user = document.getElementById("user");
+      let message = document.getElementById("input_chat");
+
+      //イベントリスナー
+      document
+        .getElementById("chat_btn")
+        .addEventListener("click", function () {
+          //送信
+          socket.emit("new_message", user.value + ": " + message.value);
+          message.value = "";
+        }); //イベントリスナー終了
+
+      //受信
+      socket.on("spread_message", function (res) {
+        let li = document.createElement("li");
+        li.textContent = res;
+        display.prepend(li);
+      });
+    </script>
+  </body>
+</html>
