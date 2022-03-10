@@ -8,8 +8,8 @@ const server = http.Server(app);
 const io = socketIO(server);
 
 //サーバーへのアクセスへの待機
-app.use(express.static("/home/ubuntu/public")); //静的ファイルを返す。
-app.use(express.urlencoded({ extended: true })); //POSTリクエストからテキストを取り出すメソッドの生成
+app.use("/", express.static("/home/ubuntu/public")); //静的ファイルを返す。
+app.use("/", express.urlencoded({ extended: true })); //POSTリクエストからテキストを取り出すメソッドの生成
 
 //文字数カウントアプリからのリクエストへの待機
 app.post("/home/ubuntu/server.js", function (req, res) {
@@ -21,7 +21,7 @@ app.post("/home/ubuntu/server.js", function (req, res) {
 io.on("connection", function (socket) {
   console.log("socket connected");
 
-  //チャットテキスト受信後、全クライアントへ送る。
+  //　チャットテキスト受信後、全クライアントへ送る。
   socket.on("new_message", function (receive) {
     io.emit("spread_message", receive);
   });
