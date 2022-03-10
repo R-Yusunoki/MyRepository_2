@@ -20,7 +20,7 @@ API によって、GET リクエスト及び JSON 文字列のレスポンスを
 # Usage
 
 【Web アプリ】<br>
-URL:[https://practiceserver.paiza-user-free.cloud:3000/](https://practiceserver.paiza-user-free.cloud:3000/index.html)<br>
+URL:[https://practiceserver.paiza-user-free.cloud:3000/index.html](https://practiceserver.paiza-user-free.cloud:3000/index.html)<br>
 アプリ画面上段ではテキストを記入し「Count」ボタンを。下段のチャットはブラウザを２つ起動させて試してみてください。<br>
 ソースファイルは「WebApp」にあります。<br>
 【ブラウザアプリ】<br>
