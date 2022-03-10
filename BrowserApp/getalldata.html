@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width" charset="utf-8" />
+    <title>get_alldata</title>
+    <style type="text/css">
+      ul.result {
+        list-style-type: none;
+        padding: 0;
+      }
+    </style>
+  </head>
+  <body>
+    [Get AllData]
+    <!--フォーム配置-->
+    <form onsubmit="returnfalse;">
+      <input type="button" id="btn" value="Get" />
+    </form>
+    <br />
+    <div id="alert"></div>
+    <ul id="result" class="result"></ul>
+
+    <!--「Count」ボタンのスクリプト-->
+    <script>
+      //イベントリスナー
+      document.getElementById("btn").addEventListener(
+        "click",
+        function () {
+          let result = document.getElementById("result");
+          let alert = document.getElementById("alert");
+          let xhr = new XMLHttpRequest(); //Ajax用オブジェクト生成
+
+          //レスポンスに非同期で対応する。
+          xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4) {
+              if (xhr.status === 200) {
+                alert.textContent = "";
+                result.textContent = "";
+                let data = JSON.parse(xhr.responseText).data;
+                let numbers = data.length;
+                let keys = Object.keys(data[0]);
+                for (let i = 0; i < numbers; i++) {
+                  let li = document.createElement("li");
+                  li.textContent =
+                    data[i][keys[0]] +
+                    "  (" +
+                    keys[2] +
+                    ")" +
+                    data[i][keys[2]] +
+                    "  (" +
+                    keys[1] +
+                    ")" +
+                    data[i][keys[1]];
+                  result.appendChild(li);
+                }
+              } else {
+                alert.textContent = "Server Error " + xhr.status;
+              }
+            } else {
+              alert.textContent = "Now Session...";
+            }
+          };
+
+          //リクエスト送信
+          xhr.open(
+            "GET",
+            "https://umayadia-apisample.azurewebsites.net/api/persons",
+            true
+          );
+          xhr.send(null);
+        },
+        false
+      ); //イベントリスナー終了
+    </script>
+  </body>
+</html>
