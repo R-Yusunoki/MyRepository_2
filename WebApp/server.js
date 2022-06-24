@@ -31,3 +31,5 @@ io.on("connection", function (socket) {
 server.listen(3000, function () {
   console.log("Starting server on port 3000");
 });
+
+// pushの練習2
